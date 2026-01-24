@@ -1,10 +1,13 @@
-[gd_scene load_steps=5 format=4 uid="uid://d4lcaje1ujgm8"]
+[gd_scene load_steps=9 format=4 uid="uid://d4lcaje1ujgm8"]
 
-[ext_resource type="Texture2D" uid="uid://dxahdjvcqguu1" path="res://sprites/Bedroom Asset Pack 001.png" id="1_bx5pa"]
-[ext_resource type="PackedScene" uid="uid://dg6m1pgljnmn3" path="res://scenes/player.tscn" id="2_0grwd"]
+[ext_resource type="Texture2D" uid="uid://dxahdjvcqguu1" path="res://sprites/Bedroom Asset Pack 001.png" id="1_o412v"]
+[ext_resource type="Texture2D" uid="uid://b37ybrxf4sigb" path="res://sprites/gb laptop assets transparency.png" id="2_6d2g4"]
+[ext_resource type="Script" uid="uid://cjio7olqb1eh2" path="res://scripts/pc.gd" id="3_885xx"]
+[ext_resource type="PackedScene" uid="uid://c67jcw2xa6l6q" path="res://scenes/monitor.tscn" id="4_j12bj"]
+[ext_resource type="PackedScene" uid="uid://dg6m1pgljnmn3" path="res://scenes/player.tscn" id="5_4ken1"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_mkmp1"]
-texture = ExtResource("1_bx5pa")
+texture = ExtResource("1_o412v")
 0:0/0 = 0
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 1:0/0 = 0
@@ -451,6 +454,9 @@ physics_layer_0/collision_mask = 2
 navigation_layer_0/layers = 1
 sources/0 = SubResource("TileSetAtlasSource_mkmp1")
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mkmp1"]
+size = Vector2(28, 30.821247)
+
 [node name="Bedroom" type="Node2D"]
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -474,7 +480,7 @@ tile_set = SubResource("TileSet_7lolw")
 
 [node name="Top" type="TileMapLayer" parent="TileMap"]
 use_parent_material = true
-tile_map_data = PackedByteArray("AAAdABQAAAANAA4AAAAdABUAAAANAA8AAAAeABQAAAAOAA4AAAAeABUAAAAOAA8AAAAfABQAAAAPAA4AAAAfABUAAAAPAA8AAAAiABEAAAATAAsAAAAiABIAAAATAAwAAAAjABEAAAAUAAsAAAAjABIAAAAUAAwAAAAkABEAAAAVAAsAAAAkABIAAAAVAAwAAAAdAAoAAAAEAAkAAAAdAAsAAAAEAAoAAAAeAAoAAAAFAAkAAAAeAAsAAAAFAAoAAAAeAA0AAAALAAwAAAA=")
+tile_map_data = PackedByteArray("AAAdABQAAAANAA4AAAAdABUAAAANAA8AAAAeABQAAAAOAA4AAAAeABUAAAAOAA8AAAAfABQAAAAPAA4AAAAfABUAAAAPAA8AAAAiABEAAAATAAsAAAAiABIAAAATAAwAAAAjABEAAAAUAAsAAAAjABIAAAAUAAwAAAAkABEAAAAVAAsAAAAkABIAAAAVAAwAAAAdAAoAAAAEAAkAAAAdAAsAAAAEAAoAAAAeAAoAAAAFAAkAAAAeAAsAAAAFAAoAAAA=")
 tile_set = SubResource("TileSet_7lolw")
 
 [node name="items" type="TileMapLayer" parent="TileMap"]
@@ -482,5 +488,28 @@ use_parent_material = true
 tile_map_data = PackedByteArray("AAAjABEAAAAJAAwAAAA=")
 tile_set = SubResource("TileSet_7lolw")
 
-[node name="Player" parent="." instance=ExtResource("2_0grwd")]
-position = Vector2(-86, -26)
+[node name="PC" type="Node2D" parent="."]
+z_index = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="PC"]
+position = Vector2(487.00003, 209.99998)
+scale = Vector2(1.9, 1.6538461)
+texture = ExtResource("2_6d2g4")
+region_enabled = true
+region_rect = Rect2(223.95105, 64.65535, 15.724274, 13.635895)
+
+[node name="Area2D" type="Area2D" parent="PC"]
+scale = Vector2(0.99905187, 0.9960586)
+priority = 1
+script = ExtResource("3_885xx")
+monitor = ExtResource("4_j12bj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PC/Area2D"]
+position = Vector2(487, 215.4106)
+shape = SubResource("RectangleShape2D_mkmp1")
+
+[node name="Player" parent="." groups=["player"] instance=ExtResource("5_4ken1")]
+position = Vector2(-83, -28)
+
+[connection signal="body_entered" from="PC/Area2D" to="PC/Area2D" method="_on_body_entered"]
+[connection signal="body_exited" from="PC/Area2D" to="PC/Area2D" method="_on_body_exited"]
