@@ -4,15 +4,19 @@ extends Area2D
 var player_near := false
 var pc_open := false
 
+@export var hint : TileMapLayer
+
 func _on_body_entered(body):
 	if body.is_in_group("player"):
 		player_near = true
+		hint.visible = true # pc hint to interact
 
 func _on_body_exited(body):
 	if body.is_in_group("player"):
 		player_near = false
+		hint.visible = false
 
-func _process(_delta):
+func _process(_delta):	
 	if player_near and Input.is_action_just_pressed("interact") and !pc_open:
 		open_pc()
 
@@ -21,10 +25,11 @@ func open_pc():
 		print("monitor is here")
 		var monitor_scene = monitor.instantiate()
 		get_tree().current_scene.add_child(monitor_scene)
-		pc_open = true 
 
-		if monitor_scene.has_node("Panel/Button"):
-			var btn = monitor_scene.get_node("Panel/Button")
-			btn.pressed.connect(func():
-				pc_open = false  # allow PC to be reopened
-			)
+		pc_open = true
+		
+		
+
+		monitor_scene.monitor_closed.connect(func():
+			pc_open = false
+		)
