@@ -1,0 +1,50 @@
+[gd_scene load_steps=5 format=3 uid="uid://hxtgn7dg1c0t"]
+
+[ext_resource type="Script" uid="uid://dcvdwdcxy6p3w" path="res://scripts/minigames/tower_stack.gd" id="1_g2tiw"]
+[ext_resource type="PackedScene" uid="uid://b2i2tt5hc6s7d" path="res://scenes/minigames/tower_stack/block.tscn" id="2_62qw1"]
+[ext_resource type="Texture2D" uid="uid://dpcu4eq6k0ilc" path="res://sprites/bg.png" id="3_k16of"]
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_fl11m"]
+a = Vector2(1139, 6)
+b = Vector2(0, 2)
+
+[node name="TowerStack" type="Node2D"]
+script = ExtResource("1_g2tiw")
+block_scene = ExtResource("2_62qw1")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_right = 1151.0
+offset_bottom = 639.0
+texture = ExtResource("3_k16of")
+expand_mode = 3
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(578, 322)
+
+[node name="Base" type="StaticBody2D" parent="."]
+position = Vector2(584, 653)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Base"]
+position = Vector2(-572, -10)
+shape = SubResource("SegmentShape2D_fl11m")
+
+[node name="Blocks" type="Node2D" parent="."]
+
+[node name="SpawnMarker" type="Marker2D" parent="."]
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="score" type="Label" parent="UI"]
+offset_left = 33.0
+offset_top = 17.0
+offset_right = 331.0
+offset_bottom = 78.0
+
+[node name="close" type="Button" parent="UI"]
+offset_left = 963.0
+offset_top = 10.0
+offset_right = 1139.0
+offset_bottom = 63.0
+text = "close ( x )"
+
+[connection signal="pressed" from="UI/close" to="." method="_on_exit_button_pressed"]

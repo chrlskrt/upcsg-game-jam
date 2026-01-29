@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://bbe2p5kilo30u"]
+
+[ext_resource type="Texture2D" uid="uid://b37ybrxf4sigb" path="res://sprites/gb laptop assets transparency.png" id="1_5rl7t"]
+
+[node name="Pc" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(150, 164)
+texture = ExtResource("1_5rl7t")
